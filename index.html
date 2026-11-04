@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kahaani Films – Your photos, made into a movie</title>
+<meta name="description" content="Send us your photos and your story. Two brothers turn them into a personalised AI movie, any length, any story.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F2FC;--bg2:#ECE6F8;--surface:#FFFFFF;--ink:#1B1A3A;--muted:#5C5A7A;--line:#D9D3EC;
+  --amber:#D98A0B;--amber-soft:#FFE7B8;--rose:#C23A62;--glow:rgba(217,138,11,.28);
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0F0E24;--bg2:#161536;--surface:#1B1A42;--ink:#FFF4E0;--muted:#B8B5D8;--line:#34325F;--amber:#FFB547;--amber-soft:#3A2D1E;--rose:#FF7A9C;--glow:rgba(255,181,71,.22);color-scheme:dark}
+}
+:root[data-theme="dark"]{--bg:#0F0E24;--bg2:#161536;--surface:#1B1A42;--ink:#FFF4E0;--muted:#B8B5D8;--line:#34325F;--amber:#FFB547;--amber-soft:#3A2D1E;--rose:#FF7A9C;--glow:rgba(255,181,71,.22);color-scheme:dark}
+html{height:auto;scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:20}
+h1,h2,h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;line-height:1.08;margin:0}
+h1{font-size:clamp(2.6rem,7.4vw,5rem);letter-spacing:-.01em}
+h2{font-size:clamp(2rem,4.6vw,3rem);margin-bottom:.7rem}
+h3{font-size:1.3rem;margin-bottom:.35rem}
+p{margin:0 0 1rem;max-width:62ch}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+section{padding:84px 0;position:relative}
+.sub{color:var(--muted);font-size:1.05rem}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:19;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font-family:'DM Serif Display',serif;font-size:1.45rem;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo i{width:12px;height:12px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px var(--amber)}
+.nav nav{display:flex;gap:26px;font-weight:500;font-size:.94rem}
+.nav nav a{text-decoration:none;color:var(--muted)}
+.nav nav a:hover{color:var(--ink)}
+@media(max-width:760px){.nav nav{display:none}}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--amber);color:#1B1A3A;border:0;padding:15px 28px;border-radius:999px;font:inherit;font-weight:800;cursor:pointer;text-decoration:none;transition:transform .18s,box-shadow .18s;box-shadow:0 8px 28px var(--glow)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px var(--glow)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn.sm{padding:10px 20px;font-size:.92rem}
+
+/* hero */
+.hero{padding:64px 0 90px;overflow:hidden}
+.hero::before{content:"";position:absolute;width:680px;height:680px;right:-180px;top:-140px;background:radial-gradient(circle,var(--glow),transparent 65%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;position:relative}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.badge{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:.85rem;color:var(--muted);margin-bottom:20px}
+.badge b{width:8px;height:8px;border-radius:50%;background:#2FCB71}
+.hero .lead{font-size:1.18rem;color:var(--muted);margin:22px 0 28px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+.chips span{font-size:.85rem;padding:6px 14px;border-radius:999px;background:var(--bg2);color:var(--muted)}
+
+/* screen: the one memorable element */
+.cinema{position:relative}
+.screen{position:relative;aspect-ratio:16/10;border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px rgba(10,8,40,.45),0 0 0 8px var(--bg2);background:#000}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity 1s;display:flex;align-items:flex-end;padding:26px}
+.scene.on{opacity:1}
+.scene .bgfx{position:absolute;inset:-8%;transform:scale(1);transition:transform 6s linear}
+.scene.on .bgfx{transform:scale(1.12)}
+.scene::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,6,30,.82),transparent 60%)}
+.cap{position:relative;z-index:2;color:#FFF4E0}
+.cap small{display:block;font-size:.78rem;opacity:.8;margin-bottom:4px}
+.cap strong{font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(1.3rem,3.4vw,2rem);line-height:1.15}
+.bar{position:absolute;left:18px;right:18px;bottom:12px;height:4px;border-radius:4px;background:rgba(255,244,224,.25);z-index:3;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--amber)}
+.tc{position:absolute;top:14px;right:16px;z-index:3;font-size:.78rem;color:#FFF4E0;background:rgba(0,0,0,.4);border-radius:6px;padding:3px 9px}
+.rec{position:absolute;top:14px;left:16px;z-index:3;font-size:.78rem;color:#FFF4E0;display:flex;gap:6px;align-items:center}
+.rec::before{content:"";width:8px;height:8px;border-radius:50%;background:#FF4D6A}
+.note-s{text-align:center;font-size:.8rem;color:var(--muted);margin-top:22px}
+
+/* stories */
+.alt{background:var(--bg2)}
+.picker{display:grid;grid-template-columns:240px 1fr;gap:26px;margin-top:30px}
+@media(max-width:780px){.picker{grid-template-columns:1fr}}
+.tabs{display:flex;flex-direction:column;gap:8px}
+@media(max-width:780px){.tabs{flex-direction:row;overflow-x:auto;padding-bottom:6px}}
+.tab{background:var(--surface);border:1.5px solid var(--line);color:var(--ink);padding:14px 18px;border-radius:14px;text-align:left;font:inherit;font-weight:700;cursor:pointer;white-space:nowrap;transition:border-color .15s}
+.tab[aria-selected="true"]{border-color:var(--amber);background:var(--amber-soft)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.poster{height:150px;display:flex;align-items:flex-end;padding:20px 26px;color:#FFF4E0;font-family:'DM Serif Display',serif;font-size:1.8rem}
+.pbody{padding:24px 26px}
+.chapters{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.chapters li{display:flex;gap:14px;border-top:1px solid var(--line);padding-top:10px;font-size:.96rem}
+.chapters b{min-width:86px;color:var(--amber)}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px;counter-reset:s}
+@media(max-width:900px){.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;counter-increment:s}
+.step::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--amber);color:#1B1A3A;font-weight:800;margin-bottom:14px}
+.step p{font-size:.93rem;color:var(--muted);margin:0}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:22px}
+.feat div{padding:22px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(160deg,var(--surface),var(--bg2))}
+.feat p{font-size:.93rem;color:var(--muted);margin:0}
+
+/* about */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+@media(max-width:780px){.about{grid-template-columns:1fr}}
+.quote{font-family:'DM Serif Display',serif;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.25}
+
+/* form */
+.formcard{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px;margin-top:26px;display:grid;gap:16px;max-width:700px}
+label{font-weight:700;font-size:.9rem;display:block;margin-bottom:6px}
+input,select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:13px}
+textarea{min-height:110px;resize:vertical}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.two{grid-template-columns:1fr}}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.88rem;color:var(--muted);font-weight:400}
+.check input{width:20px;height:20px;margin-top:2px;flex:none}
+#msg{font-size:.92rem;color:var(--rose);min-height:1.2em;margin:0}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700}
+details p{margin:10px 0 0;color:var(--muted);font-size:.95rem}
+footer{padding:48px 0 70px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+footer .logo{color:var(--ink);margin-bottom:8px}
+.wa-float{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:18;background:#25D366;color:#06351A;font-weight:800;text-decoration:none;padding:14px 22px;border-radius:999px;box-shadow:0 10px 28px rgba(0,0,0,.3)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}.scene.on .bgfx{transform:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top"><i></i>Kahaani Films</a>
+    <nav aria-label="Main"><a href="#stories">Stories</a><a href="#how">How it works</a><a href="#us">About us</a><a href="#faq">FAQ</a></nav>
+    <a class="btn sm" data-wa href="#order" target="_blank" rel="noopener">WhatsApp us</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="badge"><b></b>Made by two brothers, one film at a time</div>
+      <h1>Your photos. Your story. Your own movie.</h1>
+      <p class="lead">Send us your photos and tell us the story. We turn them into a personalised AI movie with music, narration and your own voice if you want it. Any length, any story.</p>
+      <div class="cta-row">
+        <a class="btn" data-wa href="#order" target="_blank" rel="noopener">Chat on WhatsApp</a>
+        <a class="btn ghost" href="#stories">See story ideas</a>
+      </div>
+      <div class="chips"><span>Family</span><span>Love story</span><span>Brothers and sisters</span><span>Friends</span><span>Struggle to success</span><span>Birthday gift</span></div>
+    </div>
+    <div class="cinema" aria-hidden="true">
+      <div class="screen" id="screen">
+        <div class="rec">Sample film</div><div class="tc" id="tc">0:00</div>
+        <div class="bar"><i id="prog"></i></div>
+      </div>
+      <p class="note-s">A sample outline. Your film uses your real photos.</p>
+    </div>
+  </div>
+</section>
+
+<section id="stories" class="alt">
+  <div class="wrap">
+    <h2>Whose story do you want to tell?</h2>
+    <p class="sub">Pick a type to see how a film could be structured. Every film is custom: story, tone, language, voice and length.</p>
+    <div class="picker">
+      <div class="tabs" role="tablist" aria-label="Story types" id="tabs"></div>
+      <div class="panel" id="panel" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>From photos to premiere</h2>
+    <p class="sub">No apps, no sign-ups. Everything happens on WhatsApp.</p>
+    <div class="steps">
+      <div class="step"><h3>Message us</h3><p>Tap the WhatsApp button and tell us who the film is about.</p></div>
+      <div class="step"><h3>Send photos</h3><p>Share your photos and clips, plus the story in your own words.</p></div>
+      <div class="step"><h3>Review</h3><p>We share the script and a preview. You tell us what to change.</p></div>
+      <div class="step"><h3>Watch it</h3><p>Get your finished film as a private link or download.</p></div>
+    </div>
+    <div class="feat">
+      <div><h3>Emotional storytelling</h3><p>Struggle to success, love stories, tributes to parents, friendship reunions.</p></div>
+      <div><h3>Voice and narration</h3><p>Choose a narrator style, or use your own voice if you are comfortable with it.</p></div>
+      <div><h3>Hindi, English, Hinglish</h3><p>Tell the story in the language you actually speak at home.</p></div>
+      <div><h3>Great as a gift</h3><p>Birthdays, anniversaries, weddings and farewells, delivered privately.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="us" class="alt">
+  <div class="wrap about">
+    <div class="quote">We are two brothers who wanted every family story to feel like a real movie.</div>
+    <div>
+      <p class="sub">Kahaani Films is a small project, not a big company. That means every film gets personal attention, and you talk to us directly on WhatsApp.</p>
+      <p class="sub">Your photos are only used to make your film. We never post them or share them, and we delete them whenever you ask.</p>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="wrap">
+    <h2>Tell us about your film</h2>
+    <p class="sub">Fill this in and it opens WhatsApp with your details ready to send. Or just tap to chat: <a data-wa data-num href="#" target="_blank" rel="noopener">WhatsApp</a></p>
+    <div class="formcard">
+      <div class="two">
+        <div><label for="name">Your name</label><input id="name" autocomplete="name"></div>
+        <div><label for="phone">Your WhatsApp number</label><input id="phone" inputmode="tel" autocomplete="tel"></div>
+      </div>
+      <div class="two">
+        <div><label for="type">Film is about</label>
+          <select id="type"><option>Family</option><option>Partner</option><option>Brother or sister</option><option>Friends</option><option>My journey</option><option>Something else</option></select></div>
+        <div><label for="len">Film length</label>
+          <select id="len"><option>Not sure yet</option><option>Short reel (under 1 min)</option><option>Short film (2 to 5 min)</option><option>Medium (5 to 15 min)</option><option>Long (15 min or more)</option></select></div>
+      </div>
+      <div class="two">
+        <div><label for="lang">Language</label>
+          <select id="lang"><option>Hindi</option><option>English</option><option>Hinglish</option></select></div>
+        <div><label for="city">City (optional)</label><input id="city" autocomplete="address-level2"></div>
+      </div>
+      <div><label for="story">Your story in a few lines</label><textarea id="story" placeholder="Who is in it, what happened, and how should viewers feel at the end?"></textarea></div>
+      <label class="check"><input type="checkbox" id="ok"> I have the right to use these photos, and the people in them are fine with it.</label>
+      <p id="msg" role="alert"></p>
+      <div class="cta-row"><a class="btn" id="go" href="#" target="_blank" rel="noopener">Send on WhatsApp</a><button class="btn ghost" id="copy" type="button">Copy message</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="alt">
+  <div class="wrap">
+    <h2>Questions people ask</h2>
+    <details><summary>Who makes the films?</summary><p>Two brothers who are just getting started. We use AI tools and our own editing, and we talk to every customer personally on WhatsApp.</p></details>
+    <details><summary>How much does it cost?</summary><p>It depends on the length and the story. Message us on WhatsApp and we will tell you the price before we start.</p></details>
+    <details><summary>Will the people in the film look like us?</summary><p>Your real photos are the base of every scene. AI adds motion, transitions, music and narration.</p></details>
+    <details><summary>How many photos do I need?</summary><p>Around 20 to 100 photos works well. Short videos and voice notes make it richer.</p></details>
+    <details><summary>Can I ask for changes?</summary><p>Yes. We share a script and preview first, so you can tell us what to fix before the final film.</p></details>
+    <details><summary>Is my data safe?</summary><p>We only use your photos for your film, we do not share them, and we delete them when you ask.</p></details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="logo"><i></i>Kahaani Films</div>
+    <p>Personalised AI movies from your own memories. Made by two brothers.</p>
+    <p>WhatsApp: <a data-wa data-num href="#" target="_blank" rel="noopener">WhatsApp</a></p>
+  </div>
+</footer>
+<a class="wa-float" data-wa href="#order" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">Chat on WhatsApp</a>
+
+<script>
+/* Change this one line to your real number: country code + number, digits only */
+var WA_NUMBER="919870779449";
+
+var stories={
+ "Family":{t:"A film for your family",g:"linear-gradient(135deg,#7a5a3a,#2d2240)",d:"A tribute to the people who raised you, told through old and new photos.",c:["Childhood home and early days","Festivals, struggles and sacrifices","Today, with a message of thanks"]},
+ "Partner":{t:"A love story",g:"linear-gradient(135deg,#c23a62,#3a1f5c)",d:"How you met, the little moments, and the future you are building.",c:["The first meeting","Trips, fights, making up","The promise ahead"]},
+ "Brother or sister":{t:"A sibling story",g:"linear-gradient(135deg,#2f7ea8,#26255c)",d:"Shared childhood memories, inside jokes and a bond that stayed.",c:["Growing up together","Fights, favours, secrets","Always on your side"]},
+ "Friends":{t:"A friendship film",g:"linear-gradient(135deg,#d98a0b,#6a2a58)",d:"A reunion, farewell or birthday film for the whole gang.",c:["How the group formed","Best trips and wildest nights","Where everyone is now"]},
+ "My journey":{t:"From struggle to success",g:"linear-gradient(135deg,#555,#e0a030)",d:"Start where you began and show how far you came.",c:["The difficult early days","Turning points and hard work","The success, and who helped"]}
+};
+var tabs=document.getElementById('tabs'),panel=document.getElementById('panel');
+function show(k){
+  [].forEach.call(tabs.children,function(b){b.setAttribute('aria-selected',b.dataset.k===k)});
+  var s=stories[k];
+  panel.innerHTML='<div class="poster"></div><div class="pbody"><p></p><ul class="chapters"></ul></div>';
+  var po=panel.querySelector('.poster');po.style.background=s.g;po.textContent=s.t;
+  panel.querySelector('p').textContent=s.d;
+  var ul=panel.querySelector('ul'),names=['Beginning','Middle','Ending'];
+  s.c.forEach(function(r,i){var li=document.createElement('li'),b=document.createElement('b');b.textContent=names[i];li.appendChild(b);li.appendChild(document.createTextNode(r));ul.appendChild(li)});
+}
+Object.keys(stories).forEach(function(k){
+  var b=document.createElement('button');b.className='tab';b.type='button';b.setAttribute('role','tab');b.dataset.k=k;b.textContent=k;
+  b.onclick=function(){show(k);document.getElementById('type').value=k};
+  tabs.appendChild(b);
+});
+show('Family');
+
+/* hero screen */
+var scenes=[["Where it began","Chapter 1","linear-gradient(135deg,#8a6a45,#2d2240)"],["The hard years","Chapter 2","linear-gradient(135deg,#a8456a,#2a1f5c)"],["The day it changed","Chapter 3","linear-gradient(135deg,#e0a030,#7a2f58)"]];
+var screen=document.getElementById('screen'),prog=document.getElementById('prog'),tc=document.getElementById('tc'),els=[],cur=0,t0=Date.now();
+scenes.forEach(function(s,i){
+  var d=document.createElement('div');d.className='scene'+(i===0?' on':'');
+  var f=document.createElement('div');f.className='bgfx';f.style.background=s[2];
+  var c=document.createElement('div');c.className='cap';var sm=document.createElement('small'),st=document.createElement('strong');sm.textContent=s[1];st.textContent=s[0];c.appendChild(sm);c.appendChild(st);
+  d.appendChild(f);d.appendChild(c);screen.insertBefore(d,screen.firstChild);els.push(d);
+});
+els.reverse();
+var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!reduce){
+  setInterval(function(){els[cur].classList.remove('on');cur=(cur+1)%els.length;els[cur].classList.add('on');t0=Date.now()},4200);
+  setInterval(function(){var e=Date.now()-t0;prog.style.width=Math.min(100,e/42)+'%';var sec=Math.round((cur*9.5)+e/1000*2.2);tc.textContent=Math.floor(sec/60)+':'+('0'+(sec%60)).slice(-2)},120);
+}
+
+/* whatsapp links */
+document.querySelectorAll('a[data-wa]').forEach(function(a){
+  a.href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent('Hi Kahaani Films! I want to make a movie.');
+  if(a.hasAttribute('data-num')){a.textContent='+'+WA_NUMBER.slice(0,2)+' '+WA_NUMBER.slice(2,7)+' '+WA_NUMBER.slice(7)}
+});
+var go=document.getElementById('go'),msgEl=document.getElementById('msg');
+function val(i){return document.getElementById(i).value.trim()}
+function buildMsg(){return 'Hi Kahaani Films! I want a movie.\nName: '+val('name')+'\nPhone: '+val('phone')+'\nAbout: '+val('type')+'\nLength: '+val('len')+'\nLanguage: '+val('lang')+'\nCity: '+val('city')+'\nStory: '+val('story')}
+function refresh(){go.href='https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(buildMsg())}
+function check(){
+  if(!val('name')||!val('phone')){msgEl.textContent='Add your name and WhatsApp number so we can reply.';return false}
+  if(!document.getElementById('ok').checked){msgEl.textContent='Please confirm you have the right to use the photos.';return false}
+  msgEl.textContent='';return true;
+}
+['name','phone','type','len','lang','city','story'].forEach(function(i){var e=document.getElementById(i);e.addEventListener('input',refresh);e.addEventListener('change',refresh)});
+refresh();
+go.addEventListener('click',function(e){refresh();if(!check()){e.preventDefault()}});
+document.getElementById('copy').addEventListener('click',function(){
+  if(!check())return;
+  try{navigator.clipboard.writeText(buildMsg()).then(function(){msgEl.textContent='Message copied. Paste it in WhatsApp.'},function(){msgEl.textContent='Could not copy. Use the Send on WhatsApp button.'})}
+  catch(err){msgEl.textContent='Could not copy. Use the Send on WhatsApp button.'}
+});
+</script>
+</body>
+</html>
